@@ -239,7 +239,7 @@
       $('.modal-trigger').leanModal();
 
       $('#send_email').onclick = function(){
-        var url = 'http://http://52.68.115.20/send_email'
+        var url = 'http://localhost:5000/question'
         
         var posting = $.post( url, { name: $('#name').val(), phone: $('#phone').val(), detail: $('#detail')});
 

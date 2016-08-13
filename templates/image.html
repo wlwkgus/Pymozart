@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>모차르트 마술피리</title>
+</head>
+<body>
+	<a href="/admin/image/create"><button style="font-size:24px"> 새로 만들기</button></a>
+	<div>
+		<ul id='image_field'>
+		</ul>
+	</div>
+	<br>
+	<br>
+</body>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+	<script>
+	var deleteimage = function(image_id){
+		var url = 'http://' + location['hostname'] + ':' + location['port'] + '/image/' + image_id;
+		console.log(url)
+		$.ajax({
+          type: "DELETE",
+          url: url,
+          success: function(responseData, textStatus, jqXHR) {
+          	console.log(responseData)
+            location.href="/admin/image"
+            },
+          error: function(jqXHR, textStatus, errorThrown) {
+            // Materialize.toast('예상치 못한 에러가 발생했습니다. 나중에 다시 시도해주세요.', 2500)
+            console.log('error');
+              console.log(errorThrown);
+          }
+    });
+	};
+
+	$(document).ready(function(){
+	var image_field = $('#image_field');
+	var image_url_prefix = 'http://' + location['hostname'] + ':' + location['port'] + '/image_get/';
+	var url = 'http://' + location['hostname'] + ':' + location['port'] + '/image';
+	console.log(url);
+
+	$.getJSON("/image", function( data ) {
+	  console.log(data);
+	  var imageList = [];
+	  for(var i=0;i<data.length;i++){
+	  	var image = data[i];
+	  	imageList.push( "<li>" + image['s3_key'] + "</li>" );
+	  	imageList.push("<button onclick=deleteimage(" + image['id'] + ")> 삭제 </button>")
+	  	imageList.push("<br>");
+	  	imageList.push("<img style='width: 200px;' src='" + image_url_prefix + image['s3_key'] + "' />")
+	  	imageList.push("<p>" + image['description'] + "</p>");
+	  	imageList.push("<br>");
+	  }
+
+	  image_field.html(imageList.join(""))
+    });
+	});
+	</script>
+</html>

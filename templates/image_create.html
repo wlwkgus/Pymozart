@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>모차르트 마술피리</title>
+</head>
+<body>
+	<br>
+	<br>
+	<form id="imageUploadForm" method="post" enctype="multipart/form-data" action="/image">
+		<p>이미지 : <input name="image" id="image" type="file"/></p>
+		<p>내용 : <input type="text" id="description" name="description" size="30"/></p>
+		<p></p>
+	<button type='submit'> 이미지 올리기 </button>
+	</form>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+	<script>
+  // var url = 'http://' + location['hostname'] + ':' + location['port'] + '/image'
+
+  // var files;
+
+  // // Add events
+  // $('input[type=file]').on('change', prepareUpload);
+
+  // // Grab the files and set them to our variable
+  // function prepareUpload(event)
+  // {
+  //   files = event.target.files;
+  // }
+
+  // var fileUpload = function(){
+  //   var data = new FormData();
+  //   console.log(files)
+  //   $.each(files, function(key, value)
+  //   {
+  //       data['image'] = value;
+  //   });
+
+  //   console.log(data);
+
+  //   $.ajax({
+  //       url: url,
+  //       type: 'POST',
+  //       data: data,
+  //       cache: false,
+  //       dataType: 'json',
+  //       processData: false, // Don't process the files
+  //       contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+  //       success: function(data, textStatus, jqXHR)
+  //       {
+  //           if(typeof data.error === 'undefined')
+  //           {
+  //               // Success so call function to process the form
+  //               // submitForm(event, data);
+  //           }
+  //           else
+  //           {
+  //               // Handle errors here
+  //               console.log('ERRORS: ' + data.error);
+  //           }
+  //       },
+  //       error: function(jqXHR, textStatus, errorThrown)
+  //       {
+  //           // Handle errors here
+  //           console.log('ERRORS: ' + textStatus);
+  //           // STOP LOADING SPINNER
+  //       }
+  //   });
+  // }
+
+  $(document).ready(function(){
+
+  });
+	</script>
+</body>
+</html>

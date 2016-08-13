@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>모차르트 마술피리</title>
+</head>
+<body>
+	<br>
+	<br>
+	<form>
+		<p>제목 : <input type="text" id="title" name="title" size="30"/></p>
+		<p>내용 : <textarea rows="4" cols="50" id="text" name="text"></textarea></p>
+		<p></p>
+	<button onclick="create_announcement()"> 공지사항 올리기 </button>
+	</form>
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+	<script>
+	var create_announcement = function(){
+        var url = 'http://' + location['hostname'] + ':' + location['port'] + '/announcement'
+
+        var data = { title: $('#title').val(), text: $('#text').val()};
+
+        console.log(data);
+
+        console.log('clicked!')
+
+        $.ajax({
+          type: "POST",
+          url: url,
+          data: data,
+          dataType: "json",
+          success: function(responseData, textStatus, jqXHR) {
+              location.href="/admin/announcement"
+            },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log('error');
+              console.log(errorThrown);
+          }
+        })
+    }
+	</script>
+</body>
+</html>
