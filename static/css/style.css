@@ -60,6 +60,11 @@ p {
   font-weight: 600
 }
 
+.notice_title {
+  margin-top: 3px;
+  padding-bottom : 5px;
+}
+
 input {
   padding-top : 10px;
 }

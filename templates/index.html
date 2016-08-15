@@ -46,9 +46,9 @@
 
         <h3></h3>
 
-        <a class="waves-effect waves-light btn modal-trigger" href="#modal1">문의하기</a>
+        <a class="waves-effect waves-light btn modal-trigger" href="#modal9999">문의하기</a>
 
-        <div id="modal1" class="modal">
+        <div id="modal9999" class="modal">
           <div class="modal-content">
             <h4 class="center">모차르트 마술피리에 문의하기</h4>
             <h7 style="line-height: 2;" class="center">성함과 연락처, 문의사항을 남겨주시면 빠른 시간 내에 연락드리겠습니다</h7>
@@ -95,8 +95,43 @@
     <div class="parallax"><img src="/static/main1.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
+  <div class="slider" id="notice_slider">
+    <ul class="slides" id="notice_field">
+      <!-- <li>
+        <img src="/static/white_background.jpg"/>
+        <div class="caption center-align brown-text">
+        <h4 class="bold notice_title">Notice</h4>
+        <a class="modal-trigger" href="#modal2"><h5 class="brown-text text-lighten-1">모차르트 홈페이지 오픈합니다</h5></a>
+        <a class="modal-trigger blue-text text-lighten-3" href="#modal2">자세한 내용 살펴보기<p class="brown-text" style="font-size:12px; margin-top:0px "></p></a>
+
+      </div>
+      </li>
+      <li>
+        <img src="/static/white_background.jpg"/>
+        <div class="caption center-align brown-text">
+        <h4 class="bold notice_title">Notice</h4>
+        <h5 class="brown-text text-lighten-1">모차르트 홈페이지 오픈합니다.</h5>
+      </div>
+      </li>
+ -->    </ul>
+  </div>
+
+  <div id="modal_field">
+    <!-- <div id="modal2" class="modal">
+          <div class="modal-content">
+            <h4 class="center">모차르트 마술피리에 문의하기</h4>
+            <h7 style="line-height: 2;" class="center">성함과 연락처, 문의사항을 남겨주시면 빠른 시간 내에 연락드리겠습니다</h7>
+          </div>
+
+          <div class="modal-footer">
+            <a href="#modal2" class="btn modal-action modal-close waves-effect waves-green btn-flat">닫기 </a>
+          </div>
+      </div> -->
+  </div>
+
 
   <div class="container" id="1">
+
     <div class="section">
 
       <!--   Icon Section   -->
@@ -202,7 +237,35 @@
       </div> -->
 
     </div>
+    <!-- <div class="slider" id="image_slider">
+    <ul class="slides" id="notice_field">
+      <li>
+        <img class="materialboxed" src="/image_get/mozart_file_1.png"/>
+        <div class="caption center-align brown-text">
+
+      </div>
+    </li>
+    <li>
+        <img class="materialboxed" src="/image_get/mozart_file_2.jpg"/>
+        <div class="caption center-align brown-text">
+
+      </div>
+    </li>
+    </ul>
+  </div> -->
   </div>
+  <div class="container">
+  <div class="slider" id="image_slider">
+    <ul class="slides" id="image_field">
+      <li>
+        <img class="materialboxed" data-caption="hello world"src="/image_get/mozart_file_1.png"/>
+    </li>
+    <li>
+        <img class="materialboxed" data-caption="hello world2" src="/image_get/mozart_file_2.jpg"/>
+    </li>
+    </ul>
+  </div>
+</div>
 
   <div class="container">
     <div class="section">
@@ -274,23 +337,64 @@
               console.log(errorThrown);
           }
         })
-        
-        // var posting = $.post( url, { name: $('#name').val(), phone: $('#phone').val(), detail: $('#detail')});
-
-        // posting.done(function(data){
-        //   if(data==1){
-        //     Materialize.toast('성공적으로 문의하셨습니다.', 2500)
-        //   } else{
-        //     Materialize.toast('오류가 발생했습니다. 다시 시도하여 주십시오', 2500)
-        //   }
-        // });
       }
 
     $(document).ready(function(){
       // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-      $('.modal-trigger').leanModal();
-
       
+      var notice_field = $('#notice_field');
+      var modal_field = $('#modal_field');
+      var image_field = $('#image_field');
+
+      $.getJSON("/announcement", function( data ) {
+        var noticeList = [];
+        var modalList = [];
+        for(var i=0;i<data.length;i++){
+          var notice = data[i];
+          noticeList.push( "<li>");
+          noticeList.push( '<img src="/static/white_background.jpg"/>')
+          noticeList.push('<div class="caption center-align brown-text">')
+          noticeList.push('<h4 class="bold notice_title">Notice</h4>')
+          noticeList.push('<a class="modal-trigger" href="#modal' + notice['id'] + '"><h5 class="brown-text text-lighten-1">' + notice['title'] + '</h5></a>')
+          noticeList.push('<a class="modal-trigger blue-text text-lighten-3" href="#modal' + notice['id'] + '">자세한 내용 살펴보기<p class="brown-text" style="font-size:12px; margin-top:0px "></p></a>')
+          noticeList.push('</li>')
+
+          modalList.push('<div id="modal' + notice['id'] + '" class="modal"><div class="modal-content">')
+          modalList.push('<h4 class="center">' + notice['title'] + '</h4><br>')
+          modalList.push('<h7 style="line-height: 2;" class="center">' + notice['text'] + '</h7></div><div class="modal-footer"><a href="#modal2" class="btn modal-action modal-close waves-effect waves-green btn-flat">닫기 </a></div></div>')
+        }
+
+        notice_field.html(noticeList.join(""))
+        modal_field.html(modalList.join(""))
+        });
+
+      $.getJSON("/image", function(data){
+        var imageList = [];
+        for(var i=0;i<data.length;i++){
+          var image = data[i];
+          imageList.push( "<li>");
+          imageList.push('<img class="materialboxed" data-caption="' + image['description'] + 
+            '" src="/image_get/' + image['s3_key'] + '"/>')
+          imageList.push('</li>');
+        }
+        console.log(imageList)
+        image_field.html(imageList.join(""))
+      })  
+
+      setTimeout(function(){
+        $('.modal-trigger').leanModal();
+      $('#notice_slider').slider({full_width: true, height: 150});
+    }, 200)
+      setTimeout(function(){
+        $('#image_slider').slider({full_width: true})
+      $('.materialboxed').materialbox();
+    }, 1500)
+      
+    //   setTimeout(function(){
+    //     $('.modal-trigger').leanModal();
+    //   $('.slider').slider({full_width: true, height: 150});
+    // }, 1000)
+
 
     });
   </script>

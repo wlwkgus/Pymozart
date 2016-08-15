@@ -16,13 +16,13 @@ app = Flask(__name__)
 api = Api(app)
 app.config['UPLOAD_FOLDER'] = './static/images'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
-app.secret_key = 'A0Zsdfdsf9syf8279gfycUDDV(DVsd'
+app.secret_key = 'A'
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = '1234'
+ADMIN_USERNAME = ''
+ADMIN_PASSWORD = ''
 BUCKET_NAME = ''
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 FILENAME_PREFIX = 'mozart_file_'
