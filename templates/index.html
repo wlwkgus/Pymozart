@@ -16,15 +16,15 @@
       <a id="logo-container" href="#" class="brand-logo"><img style="height: 56px;" src="/static/horizon_logo.jpg"/></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="#1">About Us</a></li>
-        <li><a href="#2">Our goal</a></li>
-        <li><a href="#3">Acscent</a></li>
+        <li><a href="#2">Acscent</a></li>
+        <li><a href="#3">Our goal</a></li>
         <li><a href="#4">Contact</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a href="#1">About Us</a></li>
-        <li><a href="#2">Our goal</a></li>
-        <li><a href="#3">Acscent</a></li>
+        <li><a href="#2">Acscent</a></li>
+        <li><a href="#3">Our goal</a></li>
         <li><a href="#4">Contact</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse brown-text"><i class="material-icons">menu</i></a>
@@ -64,7 +64,6 @@
               </div>
 
               <div class="input-field col s12">
-                <!-- <textarea></textarea> -->
                 <input length="100" type="text" id="ask_content" name="ask_content" style="padding-top: 10px">
                 <label for="ask_content">문의사항</label>
               </div>
@@ -167,6 +166,9 @@
     </div>
   </div>
 
+  <h4 class="center" style="color: #444"><br>Acscent</h4>
+
+  <div class="row center" id="2"><img src="/static/acscent_description.jpeg" style="width:70%"/></div>
 
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
@@ -176,7 +178,7 @@
         </div>
       </div>
     </div>
-    <div class="parallax" id="2"><img src="/static/slide2.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax" id="3"><img src="/static/slide2.jpg" alt="Unsplashed background img 2"></div>
   </div>
 
   <div class="container">
@@ -214,9 +216,9 @@
         </div>
         </div>
       </div>
-      <br><br>
+      
 
-      <div class="row center" id="3"><img src="/static/acscent2.png" style="width:70%"/></div>
+      <!-- <div class="row center" id="3"><img src="/static/acscent2.png" style="width:70%"/></div> -->
 
       <br>
 
@@ -237,32 +239,10 @@
       </div> -->
 
     </div>
-    <!-- <div class="slider" id="image_slider">
-    <ul class="slides" id="notice_field">
-      <li>
-        <img class="materialboxed" src="/image_get/mozart_file_1.png"/>
-        <div class="caption center-align brown-text">
-
-      </div>
-    </li>
-    <li>
-        <img class="materialboxed" src="/image_get/mozart_file_2.jpg"/>
-        <div class="caption center-align brown-text">
-
-      </div>
-    </li>
-    </ul>
-  </div> -->
   </div>
   <div class="container">
   <div class="slider" id="image_slider">
     <ul class="slides" id="image_field">
-      <li>
-        <img class="materialboxed" data-caption="hello world"src="/image_get/mozart_file_1.png"/>
-    </li>
-    <li>
-        <img class="materialboxed" data-caption="hello world2" src="/image_get/mozart_file_2.jpg"/>
-    </li>
     </ul>
   </div>
 </div>
@@ -384,7 +364,7 @@
       setTimeout(function(){
         $('.modal-trigger').leanModal();
       $('#notice_slider').slider({full_width: true, height: 150});
-    }, 200)
+    }, 350)
       setTimeout(function(){
         $('#image_slider').slider({full_width: true})
       $('.materialboxed').materialbox();

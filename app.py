@@ -115,10 +115,12 @@ class ImageView(Resource):
 	def delete(self, image_id):
 		image = Image.query.get(image_id)
 		try:
+			os.remove(os.getcwd() + '/static/images/' + image.s3_key)
 			db.session.delete(image)
 			db.session.commit()
 			return '1'
 		except:
+			# raise
 			return '0'
 
 class QuestionListView(Resource):
