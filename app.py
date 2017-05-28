@@ -301,7 +301,7 @@ def image_arxiv_upload():
 	image_object = ImageArchive(random_key=random_key)
 	db.session.add(image_object)
 	db.session.commit()
-	image_object = Image.query.filter_by(random_key=random_key).first()
+	image_object = ImageArchive.query.filter_by(random_key=random_key).first()
 	save_filename = ARXIVNAME_PREFIX + str(image_object.id) + '.' + image.filename.split('.')[-1]
 	image_object.s3_key = save_filename
 	# if user does not select file, browser also
