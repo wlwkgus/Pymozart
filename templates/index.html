@@ -182,7 +182,7 @@
     <div class="parallax" id="3"><img src="/static/midmid_1.png" alt="Unsplashed background img 2"></div>
   </div> -->
 
-  <div class="container">
+  <div class="container" id="3">
     <div class="section">
       <div class="row">
         <h4 class="center" style="color: #444"><br>모차르트 마술피리의 목표</h4>
@@ -341,7 +341,20 @@
 
           modalList.push('<div id="modal' + notice['id'] + '" class="modal"><div class="modal-content">')
           modalList.push('<h4 class="center">' + notice['title'] + '</h4><br>')
-          modalList.push('<h7 style="line-height: 2;" class="center">' + notice['text'] + '</h7></div><div class="modal-footer"><a href="#modal2" class="btn modal-action modal-close waves-effect waves-green btn-flat">닫기 </a></div></div>')
+          modalList.push('<h7 style="line-height: 2;" class="center">' + notice['text'] + '</h7></div><div class="modal-footer">')
+          if(notice.image_link1){
+            modalList.push('<img src="' + notice.image_link1 + '" class="center"/><br>')
+          }
+          if(notice.image_link2){
+            modalList.push('<img src="' + notice.image_link2 + '" class="center"/><br>')
+          }
+          if(notice.file_link1){
+            modalList.push('<a href="' + notice.file_link1 + '" class="center">첨부파일</a>')
+          }
+          if(notice.file_link2){
+            modalList.push('<a href="' + notice.file_link1 + '" class="center">첨부파일</a>')
+          }
+          modalList.push('<a href="#modal2" class="btn modal-action modal-close waves-effect waves-green btn-flat">닫기 </a></div></div>')
         }
 
         notice_field.html(noticeList.join(""))

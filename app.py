@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 
 import json
 import os
+import random
 
 
 app = Flask(__name__)
@@ -26,6 +27,7 @@ ADMIN_PASSWORD = ''
 BUCKET_NAME = ''
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 FILENAME_PREFIX = 'mozart_file_'
+ARXIVNAME_PREFIX = 'arxiv_file_'
 
 # SQLAlchemy json serialize class
 class AlchemyEncoder(json.JSONEncoder):
@@ -61,12 +63,21 @@ class Announcement(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	title = db.Column(db.String(500))
 	text = db.Column(db.String(1000))
+	image_link1 = db.Column(db.String(1000))
+	image_link2 = db.Column(db.String(1000))
+	file_link1 = db.Column(db.String(1000))
+	file_link2 = db.Column(db.String(1000))
 
 class Question(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(100))
 	phone = db.Column(db.String(100))
 	detail = db.Column(db.String(2000))
+
+class ImageArchive(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	s3_key = db.Column(db.String(500))
+	random_key = db.Column(db.String(100))
 
 
 # decorators
@@ -110,12 +121,19 @@ class ImageListView(Resource):
 	def get(self):
 		return jsonify_query(Image.query.order_by(desc(Image.id)).limit(10).all())
 
+class ImageArxivListView(Resource):
+	def get(self):
+		return jsonify_query(ImageArchive.query.order_by(desc(ImageArchive.id)).limit(10).all())
+
 class ImageView(Resource):
 	@admin_only
 	def delete(self, image_id):
 		image = Image.query.get(image_id)
 		try:
-			os.remove(os.getcwd() + '/static/images/' + image.s3_key)
+			try:
+				os.remove(os.getcwd() + '/static/images/' + image.s3_key)
+			except:
+				pass
 			db.session.delete(image)
 			db.session.commit()
 			return '1'
@@ -163,9 +181,21 @@ class AnnouncementListView(Resource):
 		parser = reqparse.RequestParser()
 		parser.add_argument('title')
 		parser.add_argument('text')
+		parser.add_argument('image_link1')
+		parser.add_argument('image_link2')
+		parser.add_argument('file_link1')
+		parser.add_argument('file_link2')
 		args = parser.parse_args()
 		try:
-			db.session.add(Announcement(title=args['title'], text=args['text']))
+			db.session.add(Announcement(
+				title=args['title'],
+				text=args['text'],
+				image_link1=args['image_link1'],
+				image_link2=args['image_link2'],
+				file_link1=args['file_link1'],
+				file_link2=args['file_link2']
+				)
+			)
 			db.session.commit()
 			return '1'
 		except:
@@ -206,10 +236,20 @@ def admin():
 def image():
 	return render_template('image.html')
 
+@app.route('/admin/image_arxiv')
+@admin_only
+def image_arxiv():
+	return render_template('image_arxiv.html')
+
 @app.route('/admin/image/create')
 @admin_only
 def create_image():
 	return render_template('image_create.html')
+
+@app.route('/admin/image_arxiv/create')
+@admin_only
+def create_image_arxiv():
+	return render_template('image_arxiv_create.html')
 
 @app.route('/admin/announcement')
 @admin_only
@@ -248,13 +288,43 @@ def image_upload():
 		db.session.commit()
 		return redirect(url_for('image'))
 
+@app.route('/image_arxiv', methods=['POST'])
+@admin_only
+def image_arxiv_upload():
+	if 'image' not in request.files:
+		return 'No file'
+	image = request.files['image']
+	str_list = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+	random_key = ''
+	for i in range(random.randint(3, 10)):
+		random_key += str_list[random.randint(0, len(str_list) - 1)]
+	image_object = ImageArchive(random_key=random_key)
+	db.session.add(image_object)
+	db.session.commit()
+	image_object = Image.query.filter_by(random_key=random_key).first()
+	save_filename = ARXIVNAME_PREFIX + str(image_object.id) + '.' + image.filename.split('.')[-1]
+	image_object.s3_key = save_filename
+	# if user does not select file, browser also
+	# submit a empty part without filename
+	if image.filename == '':
+		return 'No selected file'
+	if image and allowed_file(image.filename):
+		image.save(os.path.join(app.config['UPLOAD_FOLDER'], save_filename))
+		db.session.commit()
+		return redirect(url_for('image_arxiv'))
+
 @app.route('/image_get/<filename>')
 def image_get(filename):
+	return send_file(app.config['UPLOAD_FOLDER'][2:] + '/' +  filename)
+
+@app.route('/image_arxiv_get/<filename>')
+def image_arxiv_get(filename):
 	return send_file(app.config['UPLOAD_FOLDER'][2:] + '/' +  filename)
 
 # REST API
 api.add_resource(LoginView, '/login')
 api.add_resource(ImageListView, '/image')
+api.add_resource(ImageArxivListView, '/image_arxiv')
 api.add_resource(ImageView, '/image/<image_id>')
 api.add_resource(LogoutView, '/logout')
 api.add_resource(AnnouncementListView, '/announcement')
