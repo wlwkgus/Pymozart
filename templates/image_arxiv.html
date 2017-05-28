@@ -24,7 +24,7 @@
 	var url = 'http://' + location['hostname'] + ':' + location['port'] + '/image_arxiv';
 	console.log(url);
 
-	$.getJSON("/image", function( data ) {
+	$.getJSON("/image_arxiv", function( data ) {
 	  console.log(data);
 	  var imageList = [];
 	  for(var i=0;i<data.length;i++){
