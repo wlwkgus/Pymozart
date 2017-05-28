@@ -11,6 +11,10 @@
 	<form>
 		<p>제목 : <input type="text" id="title" name="title" size="30"/></p>
 		<p>내용 : <textarea rows="4" cols="50" id="text" name="text"></textarea></p>
+    <p>이미지 링크1 : <input type="text" id="image_link1" name="title" size="30"/></p>
+    <p>이미지 링크2 : <input type="text" id="image_link1" name="title" size="30"/></p>
+    <p>파일 링크 1 : <input type="text" id="file_link1" name="title" size="30"/></p>
+    <p>파일 링크 2 : <input type="text" id="file_link2" name="title" size="30"/></p>
 		<p></p>
 	<button onclick="create_announcement()"> 공지사항 올리기 </button>
 	</form>
@@ -20,7 +24,14 @@
 	var create_announcement = function(){
         var url = 'http://' + location['hostname'] + ':' + location['port'] + '/announcement'
 
-        var data = { title: $('#title').val(), text: $('#text').val()};
+        var data = {
+          title: $('#title').val(),
+          text: $('#text').val(),
+          image_link1: $('#image_link1').val(),
+          image_link2: $('#image_link2').val(),
+          file_link1: $('#file_link1').val(),
+          file_link2: $('#file_link2').val(),
+        };
 
         console.log(data);
 
